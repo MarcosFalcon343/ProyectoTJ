@@ -92,3 +92,15 @@ C:\Users\Marcos\Desktop\Waffli\Arduino prueba - copia - copia\Arduino prueba\obj
 C:\Users\Marcos\Desktop\Waffli\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.exe
 C:\Users\Marcos\Desktop\Waffli\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.xml
 C:\Users\Marcos\Desktop\Waffli\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.pdb
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\bin\Debug\Arduino prueba.exe.config
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\bin\Debug\Arduino prueba.exe
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\bin\Debug\Arduino prueba.pdb
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\bin\Debug\Arduino prueba.xml
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.vbproj.AssemblyReference.cache
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino_prueba.Form1.resources
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino_prueba.Resources.resources
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.vbproj.GenerateResource.cache
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.vbproj.CoreCompileInputs.cache
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.exe
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.xml
+C:\Users\Marcos\Documents\GitHub\ProyectoTJ\Visual\Arduino prueba - copia - copia\Arduino prueba\obj\Debug\Arduino prueba.pdb

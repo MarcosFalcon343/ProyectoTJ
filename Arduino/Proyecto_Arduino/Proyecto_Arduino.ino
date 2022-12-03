@@ -21,8 +21,8 @@ int HumRangoMin;
 int timeDelay;
 
 //BANDERAS
-char Modo = 'A';
-char AM = 'D';
+char Modo;
+char AM;
 bool ini = false;
 
 //LECTURAS
@@ -60,14 +60,14 @@ void loop() {
       case 'A':
         pwm = potencia(TemValor,MQ3Valor);
         analogWrite(MOTOR,pwm);
-        Serial.println(pwm);
         break;
       case 'M':
         pwm = activarMotor(AM);
         analogWrite(MOTOR,pwm);
         break;
     }
-
+    if(pwm > 0) AM = 'A';
+    else AM = 'D';
     enviarDatos();
     delay(timeDelay);
   }
@@ -82,7 +82,7 @@ void serialEvent(){
   TemRangoMin = s.separa(datos, ',', 3).toInt();
   HumRangoMax = s.separa(datos, ',', 4).toInt();
   HumRangoMin = s.separa(datos, ',', 5).toInt();
-  timeDelay = s.separa(datos, ',', 6).toInt();
+  timeDelay = s.separa(datos, ',', 6).toInt() * 1000;
   Modo = s.separa(datos, ',', 7).charAt(0);
   AM = s.separa(datos, ',', 8).charAt(0);
 
@@ -101,25 +101,30 @@ void enviarDatos(){
   Serial.print(",");
   Serial.print(HumValor);
   Serial.print(",");
+  Serial.print(pwm);
+  Serial.print(",");
   Serial.println(AM);
 }
 
 int potencia(float Tem, float MQ3){
   int pwm = 0;
   int rango_temperatura;
-  if(Tem > TemRangoMax){
-    rango_temperatura = constrain(Tem,TemRangoMin,TemRangoMax);
-    pwm = map(rango_temperatura,TemRangoMin,TemRangoMax,0,255);
-  }else if(MQ3 > MQ3RangoMax){
-    pwm = 255;
+  if(MQ3 > MQ3RangoMax){
+      pwm = 255;
+  }else{
+    rango_temperatura = constrain(Tem,0,TemRangoMax);
+    pwm = map(rango_temperatura, TemRangoMin, TemRangoMax, 0, 255);
+    if(pwm > 255) pwm = 255;
+    else if (pwm < 0) pwm = 0;
   }
   return pwm;
 }
 
 int activarMotor(char activar){
-  int pwm = 20;
   if(activar == 'A'){
     pwm = 255;
+  }else{
+    pwm = 0;
   }
   return pwm;
 }

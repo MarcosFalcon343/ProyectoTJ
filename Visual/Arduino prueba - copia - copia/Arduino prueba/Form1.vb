@@ -5,14 +5,21 @@ Imports System.Threading
 
 Public Class Form1
     Dim dato As String
-    Dim dato1 As String
-    Dim dato2 As Double
-    Dim Dato3 As Double
     Dim numero
-    'Dim TM = 0
-    'Dim TM2 = 0
-    ' utm As Integer = 0
-    'Dim atm As Integer = 0
+
+    Dim MQ3RangoMax As String
+    Dim MQ3RangoMin As String
+    Dim TemRangoMax As String
+    Dim TemRangoMin As String
+    Dim HumRangoMax As String
+    Dim HumRangoMin As String
+    Dim timeDelay As String
+    Dim Modo As String
+    Dim AM As String
+
+    Dim MQ3Valor As String
+    Dim TemValor As String
+    Dim HumValor As String
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         buscapuerto()
@@ -21,20 +28,20 @@ Public Class Form1
         Btn_automatico.Text = "Automatico"
         Btn_automatico.BackColor = Color.Yellow
 
+        MQ3RangoMax = "400"
+        MQ3RangoMin = "270"
+        TemRangoMax = "50"
+        TemRangoMin = "20"
+        HumRangoMax = "80"
+        HumRangoMin = "30"
+        timeDelay = "2"
+        Modo = "A"
+        AM = "D"
+
     End Sub
 
-    'Private Sub Temp_max_ValueChanged(sender As Object, e As EventArgs) Handles Temp_max.ValueChanged
-    'Temp_max = Temp_max_Value("")
-    '    TB_crojo.BackColor = Color.FromArgb(Val(TB_vrojo.Text), 0, 0)
-    '    TB_combinado.BackColor = Color.FromArgb(Val(TB_vrojo.Text), Val(TB_vverde.Text), (TB_vazul.Text))
 
-    'End Sub
-    'Private Sub Temp_min_ValueChanged(sender As Object, e As EventArgs) Handles Temp_min.ValueChanged
-    '    TB_vrojo.Text = Temp_min.Value
-    '    TB_crojo.BackColor = Color.FromArgb(Val(TB_vrojo.Text), 0, 0)
-    '    TB_combinado.BackColor = Color.FromArgb(Val(TB_vrojo.Text), Val(TB_vverde.Text), (TB_vazul.Text))
-    '
-    'End Sub
+    'Puertos seriales
     Private Sub buscapuerto()
         Try
             cmbPort.Items.Clear()
@@ -60,15 +67,21 @@ Public Class Form1
             Try
                 dato = sppuerto.ReadLine()
                 array = Split(dato, ",")
-                If array.Length = 3 Then
+                If array.Length = 5 Then
                     numero = CDbl(Val(dato))
                     CheckForIllegalCrossThreadCalls = False
 
-                    lbl_temperatura.Text = array(0)
 
-                    lbl_humedad.Text = Val(array(1)) - 100
 
-                    lbl_TM.Text = array(2)
+                    lbl_temperatura.Text = array(1)
+
+                    lbl_humedad.Text = array(2)
+
+                    lbl_alcohol.Text = array(0)
+
+                    pwm.Text = array(3)
+
+                    EstadoMotor.Text = array(4)
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -77,25 +90,9 @@ Public Class Form1
 
         End If
 
-        'Dim buffer As String
-        'buffer = sppuerto.ReadLine
-        'txtrecibe.Text = "RECIBIDO>> " & buffer & vbCrLf
     End Sub
 
-    'Private Sub Temp_max_ValueChanged(sender As Object, e As EventArgs) Handles Temp_max.ValueChanged
-    ' TM = Temp_max.Value
-    ' End Sub
 
-    ' Private Sub Btn_enviar_Click(sender As Object, e As EventArgs) Handles Btn_enviar.Click
-    ' If sppuerto.IsOpen Then
-    '   If utm <> atm Then
-    '     sppuerto.WriteLine("TM" + Temp_max.Text)
-    ' End If
-    ' Else
-    ' MsgBox("NO ESTAS CONECTADO", MsgBoxStyle.Exclamation)
-
-    'End If
-    ' End Sub
 
     Private Sub Btn_conectar_Click(sender As Object, e As EventArgs) Handles Btn_conectar.Click
         Try
@@ -109,6 +106,7 @@ Public Class Form1
 
                 If .IsOpen Then
                     lbl_estado.Text = "CONECTADO"
+                    sendDataRange()
 
                 Else
                     MsgBox("COENXION FALLIDA", MsgBoxStyle.Critical)
@@ -120,30 +118,6 @@ Public Class Form1
         End Try
     End Sub
 
-
-
-
-    Private Sub Btn_encendido_Click(sender As Object, e As EventArgs) Handles Btn_encendido.Click
-        If Btn_encendido.Text = "Apagado" Then
-            Btn_encendido.Text = "Encendido"
-            Btn_encendido.BackColor = Color.Green
-        Else
-            Btn_encendido.Text = "Apagado"
-            Btn_encendido.BackColor = Color.Red
-        End If
-    End Sub
-
-    Private Sub Btn_automatico_Click(sender As Object, e As EventArgs) Handles Btn_automatico.Click
-        If Btn_automatico.Text = "Automatico" Then
-            Btn_automatico.Text = "Manual"
-            Btn_automatico.BackColor = Color.BlueViolet
-        Else
-            Btn_automatico.Text = "Automatico"
-            Btn_automatico.BackColor = Color.Yellow
-        End If
-    End Sub
-
-
     Private Sub Btn_desconectar_Click(sender As Object, e As EventArgs) Handles Btn_desconectar.Click
         'Dato3 = 3
         sppuerto.Close()
@@ -151,19 +125,85 @@ Public Class Form1
     End Sub
 
 
+    'Enviar datos
+    Private Sub sendDataRange()
+        sppuerto.DiscardInBuffer()
+        sppuerto.WriteLine(MQ3RangoMax + "," + MQ3RangoMin + "," + TemRangoMax + "," + TemRangoMin + "," + HumRangoMax + "," + HumRangoMin + "," + timeDelay + "," + Modo + "," + AM + ",I")
+        send.Text = MQ3RangoMax + "," + MQ3RangoMin + "," + TemRangoMax + "," + TemRangoMin + "," + HumRangoMax + "," + HumRangoMin + "," + timeDelay + "," + Modo + "," + AM + ",I"
+
+        TMax.Text = TemRangoMax
+        TMin.Text = TemRangoMin
+        HMax.Text = HumRangoMax
+        HMin.Text = HumRangoMin
+        AMax.Text = MQ3RangoMax
+        AMin.Text = MQ3RangoMin
+        time.Text = timeDelay
+    End Sub
+
+    'botones
+    Private Sub Btn_encendido_Click(sender As Object, e As EventArgs) Handles Btn_encendido.Click
+        If Btn_encendido.Text = "Apagado" Then
+            Btn_encendido.Text = "Encendido"
+            Btn_encendido.BackColor = Color.Green
+            AM = "A"
+            sendDataRange()
+        Else
+            Btn_encendido.Text = "Apagado"
+            Btn_encendido.BackColor = Color.Red
+            AM = "D"
+            sendDataRange()
+        End If
+    End Sub
+
+    Private Sub Btn_automatico_Click(sender As Object, e As EventArgs) Handles Btn_automatico.Click
+        If Btn_automatico.Text = "Automatico" Then
+            Btn_automatico.Text = "Manual"
+            Btn_automatico.BackColor = Color.BlueViolet
+            Modo = "M"
+            sendDataRange()
+        Else
+            Btn_automatico.Text = "Automatico"
+            Btn_automatico.BackColor = Color.Yellow
+            Modo = "A"
+            sendDataRange()
+        End If
+    End Sub
 
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-        sppuerto.DiscardInBuffer()
-        sppuerto.WriteLine(Temp_max.Value)
-        lbl_TM.Text = Temp_max.Value
+        TemRangoMax = Temp_max.Value
+        sendDataRange()
     End Sub
+
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        sppuerto.DiscardInBuffer()
-        sppuerto.WriteLine(Temp_min.Value)
-        Label4.Text = Temp_min.Value
+        TemRangoMin = Temp_min.Value
+        sendDataRange()
     End Sub
 
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        HumRangoMax = Hum_max.Value
+        sendDataRange()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        HumRangoMin = Hum_min.Value
+        sendDataRange()
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        MQ3RangoMax = Alcohol_max.Value
+        sendDataRange()
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        MQ3RangoMin = Alcohol_min.Value
+        sendDataRange()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        timeDelay = TimeValue.Value
+        sendDataRange()
+    End Sub
 
 End Class
