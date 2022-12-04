@@ -31,7 +31,7 @@ Public Class Form1
         MQ3RangoMax = "400"
         MQ3RangoMin = "270"
         TemRangoMax = "50"
-        TemRangoMin = "20"
+        TemRangoMin = "30"
         HumRangoMax = "80"
         HumRangoMin = "30"
         timeDelay = "2"

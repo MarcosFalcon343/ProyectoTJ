@@ -51,7 +51,7 @@ void loop() {
     //leer sensores
     MQ3Valor = analogRead(A0);
     TemValor = dht.readTemperature();
-    HumValor = dht.readHumidity() + 100;
+    HumValor = dht.readHumidity();
 
     //Procedimientos
 
@@ -75,7 +75,6 @@ void loop() {
 
 void serialEvent(){
   String datos = Serial.readString();
-
   MQ3RangoMax = s.separa(datos, ',', 0).toInt();
   MQ3RangoMin = s.separa(datos, ',', 1).toInt();
   TemRangoMax = s.separa(datos, ',', 2).toInt();
